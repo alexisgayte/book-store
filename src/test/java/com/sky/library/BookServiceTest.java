@@ -8,29 +8,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
 public class BookServiceTest {
 
-	private BookService bookService;
-    private static final String BOOK_REFERENCE_PREFIX = "BOOK-";
+    private BookService bookService;
 
-	@BeforeEach
-	public void setUp() {
-		bookService = new BookServiceImpl(new BookRepositoryStub());
-	}
+    @BeforeEach
+    public void setUp() {
+        bookService = new BookServiceImpl(new BookRepositoryStub());
+    }
 
-	@Test
-	@DisplayName("Should return an exception .... if the reference is does not begin with BOOK")
-	public void retrieveBookFirstCase() {
-		String bookReference = "INVALID-TEXT";
+    @Test
+    @DisplayName("Should return an exception .... if the reference is does not begin with BOOK")
+    public void retrieveBookFirstCase() {
+        String bookReference = "INVALID-TEXT";
 
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             bookService.retrieveBook(bookReference);
         });
 
         assertEquals(thrown.getMessage(), "book reference must begin with BOOK-");
 
-	}
+    }
 
     @Test
     @DisplayName("Should return an BookNotFoundExecption exception if the reference is does not exist")
@@ -42,17 +40,17 @@ public class BookServiceTest {
         });
     }
 
-	@Test
+    @Test
     @DisplayName("Should return The Gruffalo book from the repository with the reference BOOK-GRUFF472")
-	public void retrieveBookThirdCase() throws BookNotFoundException {
-	    String bookReference = "BOOK-GRUFF472";
+    public void retrieveBookThirdCase() throws BookNotFoundException {
+        String bookReference = "BOOK-GRUFF472";
 
-		Book book = bookService.retrieveBook(bookReference);
+        Book book = bookService.retrieveBook(bookReference);
         assertNotNull(book);
         assertEquals(book.getReference(), bookReference);
         assertEquals(book.getTitle(), "The Gruffalo");
 
-	}
+    }
 
     @Test
     @DisplayName("Should return an exception .... if the reference is does not begin with BOOK")
@@ -93,7 +91,8 @@ public class BookServiceTest {
         String bookReference = "BOOK-WILL987";
 
         String summary = bookService.getBookSummary(bookReference);
-        assertEquals(summary, "[BOOK-WILL987] The Wind In The Willows - With the arrival of spring and fine weather outside...");
+        assertEquals(summary,
+                "[BOOK-WILL987] The Wind In The Willows - With the arrival of spring and fine weather outside...");
 
     }
 }
